@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html style="height:100%;margin:0px;">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+    <style>
+      @keyframes slideKiri {
+        from {
+          opacity: 0;
+          transform: translateX(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0px);
+        }
+      }
+
+      @keyframes fadeOut {
+        from {
+          opacity: 1;
+        }
+        to {
+          opacity: 0;
+        }
+      }
+
+      ._slideKiri {
+        animation-name: slideKiri;
+        animation-duration: 1s;
+        animation-fill-mode: forwards;
+      }
+
+      ._fadeOut {
+        animation-name: fadeOut;
+        animation-duration: 1s;
+        animation-fill-mode: forwards;
+      }
+
+      .bg {
+        margin-left: 310px;
+      }
+
+      .text {
+        font-size: 35px;
+        margin-left: 280px;
+        color: #d2deee;
+        text-shadow: 2px 2px 5px #1c3063;
+      }
+
+      @media screen and (max-width: 1400px) {
+        .bg {
+          margin-left: 110px;
+        }
+
+        .text {
+          font-size: 35px;
+          margin-left: 230px;
+        }
+      }
+
+      @media screen and (max-width: 1100px) {
+        .bg {
+          margin-left: 10px;
+        }
+
+        .text {
+          font-size: 35px;
+          margin-left: 120px;
+        }
+      }
+
+      @media screen and (max-width: 850px) {
+        .bg {
+          margin-left: -20px;
+        }
+
+        .text {
+          font-size: 35px;
+          margin-left: 65px;
+        }
+      }
+    </style>
+  </head>
+  <body style="height:100%;margin:0px;">
+    <audio src="aimer.mp3" autoplay="true"></audio>
+    <div style="height:100%;display:flex;flex-direction:row;margin:0px;">
+      <div style="width:100%">
+        <div
+          id="panelLirik"
+          style="display:flex;justify-content: center;align-items: center;height:100%"
+        ></div>
+      </div>
+      <div style="width:100%;overflow:hidden">
+        <img style="height:100%" class="bg" src="background.jpg" />
+      </div>
+    </div>
+  </body>
+  <script>
+    let lyric = [
+      {
+        awal: 20,
+        text:
+          "Aku mengerti mengenai kita berdua, dan juga musim yang kian berlalu,"
+      },
+      { awal: 26, text: "dari situlah hatimu dapat terlihat." },
+      {
+        awal: 33,
+        text: "Aku juga mengerti mengenai kesendirian dan juga rasa sakit,"
+      },
+      { awal: 40, text: "dari situlah hatimu tercoret oleh warna." },
+      { awal: 48, text: "Bunga mekar dari kejauhan jendela," },
+      { awal: 55, text: "hilang karena tertiup oleh angin musim semi." },
+      {
+        awal: 68,
+        text: "Perdengarkanlah lagumu kepadaku, dengan senyuman ..."
+      },
+      { awal: 78, text: "... dan suaramu itu." },
+      { awal: 83, text: "Meski hanya pemandangan biasa," },
+      { awal: 90, text: "tapi kita melihat bunga yang sama." },
+      {
+        awal: 96,
+        text: "Perdengarkanlah. Aku rindu padamu, ingin sekali kumenangis;"
+      },
+      { awal: 105, text: "meluapkan ini semua..." },
+      { awal: 111, text: "itu adalah kenangan indah," },
+      { awal: 118, text: "musim semi kala itu!" },
+      { awal: 138, text: "Kita berdua selalu" },
+      { awal: 145, text: "Ini adalah lirik keempat coba!" },
+      { awal: 152, text: "Ini adalah lirik keempat coba!" },
+      { awal: 159, text: "Ini adalah lirik keempat coba!" }
+    ];
+    let preventLoop = -1;
+    document.querySelectorAll("audio")[0].addEventListener("timeupdate", () => {
+      let time = document.querySelectorAll("audio")[0].currentTime;
+      console.log(Math.floor(time));
+      let ketemu = false;
+      let indexFound = 0;
+      for (i = 0; i < lyric.length; i++) {
+        if (Math.floor(time) === preventLoop) {
+          console.log("The action is blocked from thread...");
+        } else {
+          if (lyric[i].awal === Math.floor(time)) {
+            indexFound = i;
+            ketemu = true;
+            preventLoop = Math.floor(time);
+          }
+        }
+      }
+      if (ketemu) {
+        if (document.querySelectorAll(".text").length > 0) {
+          document.querySelectorAll(".text")[0].classList.add("_fadeOut");
+          setTimeout(() => {
+            document.querySelectorAll(
+              "#panelLirik"
+            )[0].innerHTML = `<div class="text _slideKiri">
+               ${lyric[indexFound].text}
+              </div>`;
+          }, 500);
+        } else {
+          document.querySelectorAll(
+            "#panelLirik"
+          )[0].innerHTML = `<div class="text _slideKiri">
+              ${lyric[indexFound].text}
+          </div>`;
+        }
+      }
+    });
+  </script>
+</html>
